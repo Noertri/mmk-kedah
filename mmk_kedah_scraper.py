@@ -31,23 +31,30 @@ def main():
             souped = BeautifulSoup(inner_html, "html.parser")
             rows = souped.select("table tr")
             if rows:
+                cols = list()
+                for row in rows:
+                    tds = [col.get_text(strip=True, separator=" ") for col in row.select("td")]
+                    if any(tds):
+                        cols.append(tds)
+                        
                 result = {
-                        "name": col.get_text(strip=True, separator=" ") if (col := rows[0].select("td")[1]) else "",
-                        "address": col.get_text(strip=True, separator=" ") if (col := rows[1].select_one("td")) else "",
-                        "telephone": col.get_text(strip=True, separator=" ") if (col := rows[2].select("td")[1]) else "",
-                        "fax": col.get_text(strip=True, separator=" ") if (col := rows[3].select("td")[1]) else "",
-                        "email": col.get_text(strip=True, separator=" ") if (col := rows[4].select("td")[1]) else "",
-                        "facebook": col.get_text(strip=True, separator=" ") if (col := rows[5].select("td")[1]) else "",
+                        "name": cols[0][1],
+                        "address": cols[1][0],
+                        "telephone": cols[2][1],
+                        "fax": cols[3][1],
+                        "email": cols[4][1],
+                        "facebook": cols[5][1],
                         "photo_link": parse.urljoin(base_url, img_src) if (img_src := rows[0].select("td")[0].select_one("img").get("src", None))
                                       else ""
                 }
                 
+                print(result)
                 results.append(result)
                 
     browser.quit()
     
     filename = "MMK_Kedah_ahli_DUN_{}.csv".format(datetime.now().strftime("%d%m%Y%H%M%S"))
-    
+
     print(f"Save to {filename}...")
     try:
         with open(filename, "w", newline="", encoding="utf-8") as f:
