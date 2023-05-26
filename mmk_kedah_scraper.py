@@ -1,15 +1,12 @@
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
-from urllib import parse
+import csv
 import time
 from datetime import datetime
-import csv
+from urllib import parse
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service
 
-options = Options()
-options.add_argument("--detach")
 base_url = "https://mmk.kedah.gov.my"
 servis = Service("geckodriver.exe")
 browser = webdriver.Firefox(service=servis)
