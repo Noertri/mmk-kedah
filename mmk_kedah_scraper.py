@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
+import sys
+
 
 base_url = "https://mmk.kedah.gov.my"
 servis = Service("geckodriver.exe")
@@ -36,6 +38,8 @@ def main():
                         
                 result = {
                         "name": cols[0][1],
+                        "position": "Member of the State Legislative Assembly (Ahli Dewan Undangan Negeri)/State Legislative Assembly (Dewan "
+                                    "Undangan Negeri), Kedah",
                         "address": cols[1][0],
                         "telephone": cols[2][1],
                         "fax": cols[3][1],
@@ -50,18 +54,20 @@ def main():
                 
     browser.quit()
     
-    filename = "MMK_Kedah_ahli_DUN_{}.csv".format(datetime.now().strftime("%d%m%Y%H%M%S"))
-
-    print(f"Save to {filename}...")
-    try:
-        with open(filename, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, delimiter=";", fieldnames=("name", "address", "telephone", "fax", "email", "facebook", "photo_link"))
-            writer.writeheader()
-            writer.writerows(results)
-            f.close()
-        print("Berhasil...")
-    except Exception as e:
-        print(f"{e}")
+    if input("Save results to file?[Y/n]: ").lower() == "y":
+        filename = "MMK_Kedah_ahli_DUN_{}.csv".format(datetime.now().strftime("%d%m%Y%H%M%S"))
+    
+        print(f"Save to {filename}...")
+        try:
+            with open(filename, "w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, delimiter=";", fieldnames=("name", "position", "address", "telephone", "fax", "email", "facebook",
+                                                                      "photo_link"))
+                writer.writeheader()
+                writer.writerows(results)
+                f.close()
+            print("Berhasil...")
+        except Exception as e:
+            print(f"{e}")
         
 
 if __name__ == "__main__":
