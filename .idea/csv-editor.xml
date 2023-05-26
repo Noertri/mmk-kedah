@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\MMK_Kedah_ahli_DUN_26052023100555.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
