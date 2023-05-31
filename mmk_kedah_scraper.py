@@ -15,7 +15,7 @@ browser = webdriver.Firefox(service=servis)
 
 
 def main():
-    print("Mulai scrape web...")
+    print("Start to scrape web...")
     browser.get(parse.urljoin(base_url, "kerajaan/ahli-yang-berhormat/ahli-dewan-undangan-negeri"))
     groups = browser.find_elements(By.CSS_SELECTOR, ".accordion-group")
     
@@ -65,7 +65,7 @@ def main():
                 writer.writeheader()
                 writer.writerows(results)
                 f.close()
-            print("Berhasil...")
+            print("Done...")
         except Exception as e:
             print(f"{e}")
         
